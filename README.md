@@ -31,24 +31,17 @@ let TaskBody = t.Object({ title: t.String() });
 let TaskResponse = t.Object({ id: t.Number(), title: t.String() });
 let TaskListResponse = t.Array(t.Object({ id: t.Number(), title: t.String() }));
 
-// step #1
+// step #1 extend basecontroller
 class TasksController extends BaseController {
-  // step #2
+  // step #2 define emprt routes
   routes = [];
 
   constructor(
     public tasksService: TasksService //public anotherService: AnotherService
   ) {
-    // step #3
-    super('/tasks'); // IMPORTANT: DEFINE BASE ROUTE NAME (https://localhost:3500/tasks)
+    super('/tasks'); // step #3 DEFINE Base route (https://localhost:3500/tasks)
   }
 
-  // step #4
-  initializeRoutes() {
-    this.registerRoutes(this.routes);
-  }
-
-  // step #5 (last)
   // define a route and response for both swagger and the response type
   @Get('/', { response: TaskListResponse }) // or just @Get('/')
   async index() {

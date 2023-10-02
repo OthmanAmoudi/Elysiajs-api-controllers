@@ -11,7 +11,7 @@ abstract class BaseController {
   app: any;
   basePath: string;
 
-  abstract initializeRoutes(): void;
+  // abstract initializeRoutes(): void;
   abstract routes: Route[];
 
   constructor(basePath: string) {
@@ -22,6 +22,10 @@ abstract class BaseController {
 
   start() {
     return this.app;
+  }
+
+  initializeRoutes() {
+    this.registerRoutes(this.routes);
   }
 
   registerRoutes(routes: Route[]) {

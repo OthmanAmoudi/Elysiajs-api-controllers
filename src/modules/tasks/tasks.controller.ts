@@ -13,10 +13,6 @@ class TasksController extends BaseController {
     super('/tasks');
   }
 
-  initializeRoutes() {
-    this.registerRoutes(this.routes);
-  }
-
   @Get('/', { response: TaskListResponse })
   async index() {
     return tasksService.getAllTasks();
