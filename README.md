@@ -1,10 +1,24 @@
 # Elysia routing controllers
+
 ### modular and concise template with decorators and services (inspired by nestjs)
+
 - Elysia RESTAPI starter example
-- Decorators for GET, POST, PUT and DELETE methods  
-- by default, all requests are logged in the console ('GET -- /swagger -- 200 2023-10-02T00:48:20.857Z') 
+- Decorators for GET, POST, PUT and DELETE methods
+- by default, all requests are logged in the console ('GET -- /swagger -- 200 2023-10-02T00:48:20.857Z')
 - swagger included everytime you extend the base controller, to view registered routes go to (http://localhost:3500/swagger)
-  
+
+first
+
+```
+bun install
+```
+
+then
+
+```
+npm run dev
+```
+
 ```ts
 import { t } from 'Elysia';
 import TasksService from './tasks.service';
@@ -21,9 +35,9 @@ class TasksController extends BaseController {
   routes = [];
 
   constructor(
-  public tasksService: TasksService,
-  //public anotherService: AnotherService
-) {
+    public tasksService: TasksService
+  ) //public anotherService: AnotherService
+  {
     // step #3
     super('/tasks'); // IMPORTANT: DEFINE BASE ROUTE NAME (https://localhost:3500/tasks)
   }
@@ -70,5 +84,5 @@ class TasksController extends BaseController {
 const tasksService = new TasksService();
 //const anotherSerice = new AnotherService();
 
-export default new TasksController(tasksService)//,anotherSerice);
+export default new TasksController(tasksService); //,anotherSerice);
 ```
