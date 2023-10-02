@@ -3,8 +3,8 @@ import { Elysia } from 'Elysia';
 interface Route {
   method: string;
   path: string;
-  handler: any;
-  responseOptions: {};
+  handler: (...args: any[]) => any;
+  responseOptions?: Record<string, any>;
 }
 
 abstract class BaseController {
