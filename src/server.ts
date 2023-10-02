@@ -6,5 +6,5 @@ export function bootServer(app: any) {
   app.onResponse(requestLogger);
   app.use(swagger());
   registerControllers(app, [TasksController]); // or register controllers manually: app.use(TasksController.start())
-  
+  // TODO: handle middleware in controllers
 }
