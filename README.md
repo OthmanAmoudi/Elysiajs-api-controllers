@@ -33,16 +33,17 @@ let TaskListResponse = t.Array(t.Object({ id: t.Number(), title: t.String() }));
 
 // step #1 extend basecontroller
 class TasksController extends BaseController {
-  // step #2 define emprt routes
+  // step #2 init empty routes array
   routes = [];
 
   constructor(
     public tasksService: TasksService //public anotherService: AnotherService
   ) {
-    super('/tasks'); // step #3 DEFINE Base route (https://localhost:3500/tasks)
+    // step #3 define Base route (https://localhost:3500/tasks)
+    super('/tasks');
   }
 
-  // define a route and response for both swagger and the response type
+  // define a route and response for both swagger and the response type (https://localhost:3500/tasks/)
   @Get('/', { response: TaskListResponse }) // or just @Get('/')
   async index() {
     return tasksService.getAllTasks();
@@ -56,7 +57,7 @@ class TasksController extends BaseController {
     return tasksService.createTask({ title: ctx.body.title });
   }
 
-  @Get('/:id', { response: TaskResponse })
+  @Get('/:id', { response: TaskResponse }) // (https://localhost:3500/tasks/2)
   async show(ctx: any) {
     return tasksService.getTask(Number(ctx.params.id));
   }
