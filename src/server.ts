@@ -3,8 +3,14 @@ import { TasksController } from './modules';
 import { requestLogger, registerControllers } from './utils';
 
 export function bootServer(app: any) {
+  // middlewates
   app.onResponse(requestLogger);
   app.use(swagger());
-  registerControllers(app, [TasksController]); // or register controllers manually: app.use(TasksController.start())
-  // TODO: handle middleware in controllers
+  //controllers
+  registerControllers(app, [TasksController]); 
+  // or 
+  // app.use(TasksController.start())
+  // app.use(AnotherController.start())
+  
+// TODO: handle custom middlewares in controllers
 }
