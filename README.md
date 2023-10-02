@@ -19,6 +19,8 @@ then
 npm run dev
 ```
 
+example controller
+
 ```ts
 import { t } from 'Elysia';
 import TasksService from './tasks.service';
@@ -35,9 +37,8 @@ class TasksController extends BaseController {
   routes = [];
 
   constructor(
-    public tasksService: TasksService
-  ) //public anotherService: AnotherService
-  {
+    public tasksService: TasksService //public anotherService: AnotherService
+  ) {
     // step #3
     super('/tasks'); // IMPORTANT: DEFINE BASE ROUTE NAME (https://localhost:3500/tasks)
   }
