@@ -5,5 +5,6 @@ import { requestLogger, registerControllers } from './utils';
 export function bootServer(app: any) {
   app.onResponse(requestLogger);
   app.use(swagger());
-  registerControllers(app, [TasksController]);
+  registerControllers(app, [TasksController]); // or register controllers manually: app.use(TasksController.start())
+  
 }
