@@ -1,7 +1,8 @@
 # Elysia-routing-controllers
-Elysia RESTAPI example with routing controllers and decorators 
-all requests gets logged in console, 
-swagger included to see all registered routes go to (https://localhost:3500/swagger)
+- Elysia RESTAPI example with routing controllers and decorators
+- Decorators for GET, POST, PUT and DELETE methods  
+- by default, all requests are logged in the console ('GET -- /swagger -- 200 2023-10-02T00:48:20.857Z') 
+- swagger included at see all registered routes go to (http://localhost:3500/swagger)
 ```ts
 import { t } from 'Elysia';
 import TasksService from './tasks.service';
