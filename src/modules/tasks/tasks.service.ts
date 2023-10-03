@@ -8,11 +8,9 @@ const tasks: Task[] = [
   { id: 2, title: 'Shop after work' },
   { id: 3, title: 'Get dinner' },
   { id: 4, title: 'Pay bills' },
-  { id: 5, title: 'Write application' },
-  { id: 6, title: 'Design landingpage' },
-  { id: 7, title: 'Feed the cat' },
-  { id: 8, title: 'Walk the dog' },
-  { id: 9, title: 'Study in the library' },
+  { id: 5, title: 'Feed the cat' },
+  { id: 6, title: 'Walk the dog' },
+  { id: 7, title: 'Study in the library' },
 ];
 
 export default class TasksService {

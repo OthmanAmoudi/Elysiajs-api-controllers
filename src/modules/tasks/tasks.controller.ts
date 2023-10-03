@@ -4,7 +4,7 @@ import { Delete, Get, Post, Put, BaseController } from '../../utils';
 
 let TaskBody = t.Object({ title: t.String() });
 let TaskResponse = t.Object({ id: t.Number(), title: t.String() });
-let TaskListResponse = t.Array(t.Object({ id: t.Number(), title: t.String() }));
+let TaskListResponse = t.Array(TaskResponse);
 let TaskParams = t.Object({ id: t.Numeric() });
 let TaskQuery = t.Object({ limit: t.Optional(t.Numeric()) });
 
@@ -17,7 +17,6 @@ class TasksController extends BaseController {
 
   @Get('/', { query: TaskQuery, response: TaskListResponse })
   async index(ctx: any) {
-    console.log(ctx.query);
     return tasksService.getAllTasks(ctx.query.limit);
   }
 

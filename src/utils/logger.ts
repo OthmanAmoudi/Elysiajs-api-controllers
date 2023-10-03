@@ -42,9 +42,10 @@ function bootLogger() {
 }
 
 const gracefulShutdown = async () => {
-  console.log('shutting down gracefully ....');
+  console.log(chalk.yellowBright('shutting down gracefully ....'));
   setTimeout(() => {
+    console.log('good bye');
     process.exit();
-  }, 10000);
+  }, 5000);
 };
 export { requestLogger, bootLogger, gracefulShutdown };
