@@ -25,28 +25,23 @@ example controller
 import { t } from 'Elysia';
 import TasksService from './tasks.service';
 import { Delete, Get, Post, Put, BaseController } from '../../utils';
-//import AnotherService from './another.service';
 
 let TaskBody = t.Object({ title: t.String() });
 let TaskResponse = t.Object({ id: t.Number(), title: t.String() });
-let TaskListResponse = t.Array(t.Object({ id: t.Number(), title: t.String() }));
+let TaskListResponse = t.Array(TaskResponse);
+let TaskParams = t.Object({ id: t.Numeric() });
+let TaskQuery = t.Object({ limit: t.Optional(t.Numeric()) });
 
-// step #1 extend basecontroller
 class TasksController extends BaseController {
-  // step #2 init empty routes array
-  routes = [];
+  routes = []; // step 1
 
-  constructor(
-    public tasksService: TasksService //public anotherService: AnotherService
-  ) {
-    // step #3 define Base route (https://localhost:3500/tasks)
-    super('/tasks');
+  constructor(public tasksService: TasksService) {
+    super('/tasks'); // step 2
   }
 
-  // define a route and response for both swagger and the response type (https://localhost:3500/tasks/)
-  @Get('/', { response: TaskListResponse }) // or just @Get('/')
-  async index() {
-    return tasksService.getAllTasks();
+  @Get('/', { query: TaskQuery, response: TaskListResponse })
+  async index(ctx: any) {
+    return tasksService.getAllTasks(ctx.query.limit);
   }
 
   @Post('/', {
@@ -57,12 +52,12 @@ class TasksController extends BaseController {
     return tasksService.createTask({ title: ctx.body.title });
   }
 
-  @Get('/:id', { response: TaskResponse }) // (https://localhost:3500/tasks/2)
+  @Get('/:id', { params: TaskParams, response: TaskResponse })
   async show(ctx: any) {
-    return tasksService.getTask(Number(ctx.params.id));
+    return tasksService.getTask(ctx.params.id);
   }
 
-  @Put('/:id', { response: TaskResponse })
+  @Put('/:id', { body: TaskBody, response: TaskResponse })
   async update(ctx: any) {
     return tasksService.updateTask({
       id: Number(ctx.params.id),
@@ -78,6 +73,7 @@ class TasksController extends BaseController {
 
 const tasksService = new TasksService();
 //const anotherSerice = new AnotherService();
-
-export default new TasksController(tasksService); //,anotherSerice);
+//step3
+export default new TasksController(tasksService).start(); //import it in server.ts like app.use(TasksController)
+// export default new TasksController(tasksService,anotherSerice).start();
 ```
