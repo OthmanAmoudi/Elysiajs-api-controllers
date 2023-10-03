@@ -5,12 +5,21 @@ interface Task {
 
 const tasks: Task[] = [
   { id: 1, title: 'Workout at night' },
-  { id: 2, title: 'Shop at mall' },
-  { id: 3, title: 'Study in library' },
+  { id: 2, title: 'Shop after work' },
+  { id: 3, title: 'Get dinner' },
+  { id: 4, title: 'Pay bills' },
+  { id: 5, title: 'Write application' },
+  { id: 6, title: 'Design landingpage' },
+  { id: 7, title: 'Feed the cat' },
+  { id: 8, title: 'Walk the dog' },
+  { id: 9, title: 'Study in the library' },
 ];
 
 export default class TasksService {
-  async getAllTasks() {
+  async getAllTasks(limit?: number) {
+    if (limit) {
+      return tasks.slice(0, limit);
+    }
     return tasks;
   }
 

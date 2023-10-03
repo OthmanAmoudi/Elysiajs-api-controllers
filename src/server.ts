@@ -1,13 +1,18 @@
 import swagger from '@elysiajs/swagger';
 import { TasksController } from './modules';
-import { requestLogger } from './utils';
+import { gracefulShutdown, requestLogger } from './utils';
 
-export function bootServer(app: any) {
-  // middlewates
+export function startServer(app: any) {
+  // middlewares
   app.onResponse(requestLogger);
+  app.onStop(gracefulShutdown);
   app.use(swagger());
+
   //controllers
-  app.use(TasksController.start());
-  // app.use(AnotherController.start())
+  app.use(TasksController);
+  // app.use(AnotherController)
 }
+
 // TODO: handle custom middlewares in controllers
+// TODO: add auth
+// TODO: add database

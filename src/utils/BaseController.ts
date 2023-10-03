@@ -11,7 +11,6 @@ abstract class BaseController {
   app: any;
   basePath: string;
 
-  // abstract initializeRoutes(): void;
   abstract routes: Route[];
 
   constructor(basePath: string) {
@@ -28,14 +27,32 @@ abstract class BaseController {
     this.registerRoutes(this.routes);
   }
 
+  convertEmptyPath(path: string) {
+    switch (true) {
+      case path.length === 1 && path === '/':
+        return '';
+      case path.startsWith(':'):
+        return '/' + path;
+      case path.startsWith('/') && path.length > 1:
+        return path;
+      default:
+        return path;
+    }
+    // return path.length === 1 && path === '/' ? '' : path;
+  }
+
   registerRoutes(routes: Route[]) {
     routes.forEach((route) =>
-      this.app[route.method](`${this.basePath}${route.path}`, route.handler, {
-        ...route.responseOptions,
-        detail: {
-          tags: [this.basePath.replace('/', '')], // for swagger
-        },
-      })
+      this.app[route.method](
+        `${this.basePath}${this.convertEmptyPath(route.path)}`,
+        route.handler,
+        {
+          ...route.responseOptions,
+          detail: {
+            tags: [this.basePath.replace('/', '')], // for swagger
+          },
+        }
+      )
     );
   }
 }

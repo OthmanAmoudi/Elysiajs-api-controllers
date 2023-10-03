@@ -5,6 +5,8 @@ import { Delete, Get, Post, Put, BaseController } from '../../utils';
 let TaskBody = t.Object({ title: t.String() });
 let TaskResponse = t.Object({ id: t.Number(), title: t.String() });
 let TaskListResponse = t.Array(t.Object({ id: t.Number(), title: t.String() }));
+let TaskParams = t.Object({ id: t.Numeric() });
+let TaskQuery = t.Object({ limit: t.Optional(t.Numeric()) });
 
 class TasksController extends BaseController {
   routes = [];
@@ -13,9 +15,10 @@ class TasksController extends BaseController {
     super('/tasks');
   }
 
-  @Get('/', { response: TaskListResponse })
-  async index() {
-    return tasksService.getAllTasks();
+  @Get('/', { query: TaskQuery, response: TaskListResponse })
+  async index(ctx: any) {
+    console.log(ctx.query);
+    return tasksService.getAllTasks(ctx.query.limit);
   }
 
   @Post('/', {
@@ -26,12 +29,13 @@ class TasksController extends BaseController {
     return tasksService.createTask({ title: ctx.body.title });
   }
 
-  @Get('/:id', { response: TaskResponse })
+  @Get('/:id', { params: TaskParams, response: TaskResponse })
   async show(ctx: any) {
-    return tasksService.getTask(Number(ctx.params.id));
+    // return tasksService.getTask(Number(ctx.params.id));
+    return tasksService.getTask(ctx.params.id); //after applying TaskParams to t.Numeric!
   }
 
-  @Put('/:id', { response: TaskResponse })
+  @Put('/:id', { body: TaskBody, response: TaskResponse })
   async update(ctx: any) {
     return tasksService.updateTask({
       id: Number(ctx.params.id),
@@ -47,4 +51,4 @@ class TasksController extends BaseController {
 
 const tasksService = new TasksService();
 
-export default new TasksController(tasksService);
+export default new TasksController(tasksService).start();
