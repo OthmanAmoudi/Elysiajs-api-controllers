@@ -57,10 +57,10 @@ class TasksController extends BaseController {
     return tasksService.getTask(ctx.params.id);
   }
 
-  @Put('/:id', { body: TaskBody, response: TaskResponse })
+  @Put('/:id', { params: TaskParams, body: TaskBody, response: TaskResponse })
   async update(ctx: any) {
     return tasksService.updateTask({
-      id: Number(ctx.params.id),
+      id: ctx.params.id,
       title: ctx.body.title,
     });
   }
@@ -72,8 +72,9 @@ class TasksController extends BaseController {
 }
 
 const tasksService = new TasksService();
-//const anotherSerice = new AnotherService();
 //step3
-export default new TasksController(tasksService).start(); //import it in server.ts like app.use(TasksController)
+export default new TasksController(tasksService).start(); //in server.ts add: app.use(TasksController)
+
+//const anotherSerice = new AnotherService();
 // export default new TasksController(tasksService,anotherSerice).start();
 ```

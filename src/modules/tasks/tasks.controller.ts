@@ -30,14 +30,13 @@ class TasksController extends BaseController {
 
   @Get('/:id', { params: TaskParams, response: TaskResponse })
   async show(ctx: any) {
-    // return tasksService.getTask(Number(ctx.params.id));
-    return tasksService.getTask(ctx.params.id); //after applying TaskParams to t.Numeric!
+    return tasksService.getTask(ctx.params.id); // t.Numeric()
   }
 
-  @Put('/:id', { body: TaskBody, response: TaskResponse })
+  @Put('/:id', { params: TaskParams, body: TaskBody, response: TaskResponse })
   async update(ctx: any) {
     return tasksService.updateTask({
-      id: Number(ctx.params.id),
+      id: ctx.params.id,
       title: ctx.body.title,
     });
   }
