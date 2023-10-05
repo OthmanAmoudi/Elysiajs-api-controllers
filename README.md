@@ -19,6 +19,10 @@ then
 npm run dev
 ```
 
+make sure in your tsconfig.ts you have:
+```
+"experimentalDecorators": true
+```
 example controller
 
 ```ts
