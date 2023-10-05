@@ -19,7 +19,7 @@ then
 npm run dev
 ```
 
-make sure in your tsconfig.ts you have:
+make sure in your tsconfig.json you have:
 ```
 "experimentalDecorators": true
 ```
