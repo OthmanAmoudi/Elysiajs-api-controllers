@@ -1,4 +1,5 @@
 import Elysia from 'Elysia';
+import cors from '@elysiajs/cors';
 import swagger from '@elysiajs/swagger';
 import { registerControllers } from './server';
 import {
@@ -10,10 +11,11 @@ import {
 
 try {
   const app = new Elysia();
-  app.onResponse(requestLogger);
-  app.onStop(gracefulShutdown);
-  app.onError(({ code, error, set }) => ErrorMessages(code, error, set));
+  app.use(cors());
   app.use(swagger());
+  app.onStop(gracefulShutdown);
+  app.onResponse(requestLogger);
+  app.onError(({ code, error, set }) => ErrorMessages(code, error, set));
   registerControllers(app); // user routes and middlewates
   process.on('SIGINT', app.stop);
   process.on('SIGTERM', app.stop);

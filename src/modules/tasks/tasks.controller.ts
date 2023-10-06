@@ -36,7 +36,7 @@ class TasksController extends BaseController {
 
   @Get('/:id', { params: TaskParams, response: TaskResponse })
   async show(ctx: any) {
-    return tasksService.getTask(ctx.params.id); // t.Numeric()
+    return tasksService.getTask(ctx.params.id); // t.Numeric() will convert '3' to 3
   }
 
   @Put('/:id', { params: TaskParams, body: TaskBody, response: TaskResponse })

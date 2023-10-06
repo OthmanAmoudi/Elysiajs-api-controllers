@@ -1,16 +1,21 @@
 import { db } from '../../database';
-import { notes } from '../../database/schema';
+import { InsertNote, Note, notes } from '../../database/schema';
 import { eq } from 'drizzle-orm';
+import { NotFoundError } from 'Elysia';
 
 export default class NotesService {
-  async getAllNotes(limit?: number) {
-    return db
-      .select()
+  async getAllNotes(
+    limit?: number
+  ): Promise<{ id: number; content: string | null }[]> {
+    const x = db
+      .select({ id: notes.id, content: notes.content })
       .from(notes)
       .limit(limit || 10);
+    return x;
   }
 
-  async createNote(data: { content: string }) {
+  async createNote(data: InsertNote): Promise<Note> {
+    console.log(data);
     const result = await db
       .insert(notes)
       .values({ content: data.content })
@@ -19,21 +24,28 @@ export default class NotesService {
     return result[0];
   }
 
-  async getNote(id: number) {
+  async getNote(id: number): Promise<Note> {
     const result = await db.select().from(notes).where(eq(notes.id, id));
-    return result[0];
+    if (result.length > 0) {
+      return result[0];
+    }
+    throw new NotFoundError();
   }
 
-  async updateNote(data: { id: number; content: string }) {
+  async updateNote(data: InsertNote): Promise<Note> {
     const result = await db
       .update(notes)
       .set({ content: data.content })
-      .where(eq(notes.id, data.id))
+      .where(eq(notes.id, data.id!))
       .returning();
-    return result[0];
+    console.log(result);
+    if (result.length > 0) {
+      return result[0];
+    }
+    throw new NotFoundError();
   }
 
-  async deleteNote(id: number) {
+  async deleteNote(id: number): Promise<undefined> {
     await db.delete(notes).where(eq(notes.id, id));
   }
 }
