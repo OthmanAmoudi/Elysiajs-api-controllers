@@ -2,7 +2,12 @@ import { t } from 'Elysia';
 import TasksService from './tasks.service';
 import { Delete, Get, Post, Put, BaseController } from '../../utils';
 
-let TaskBody = t.Object({ title: t.String() });
+let TaskBody = t.Object({
+  title: t.String({
+    error: 'title is required with minimum length of 3',
+    minLength: 3,
+  }),
+});
 let TaskResponse = t.Object({ id: t.Number(), title: t.String() });
 let TaskListResponse = t.Array(TaskResponse);
 let TaskParams = t.Object({ id: t.Numeric() });
@@ -17,6 +22,7 @@ class TasksController extends BaseController {
 
   @Get('/', { query: TaskQuery, response: TaskListResponse })
   async index(ctx: any) {
+    console.log(ctx);
     return tasksService.getAllTasks(ctx.query.limit);
   }
 

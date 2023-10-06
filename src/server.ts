@@ -1,18 +1,13 @@
-import swagger from '@elysiajs/swagger';
-import { TasksController } from './modules';
-import { gracefulShutdown, requestLogger } from './utils';
+import Elysia from 'Elysia';
+import { TasksController, NotesController } from './modules';
 
-export function startServer(app: any) {
+export function registerControllers(app: Elysia) {
   // middlewares
-  app.onResponse(requestLogger);
-  app.onStop(gracefulShutdown);
-  app.use(swagger());
 
   //controllers
-  app.use(TasksController);
-  // app.use(AnotherController)
+  app.use(TasksController); // without database
+  app.use(NotesController); // with database
 }
 
 // TODO: handle custom middlewares in controllers
 // TODO: add auth
-// TODO: add database

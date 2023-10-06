@@ -1,10 +1,20 @@
 import Elysia from 'Elysia';
-import { startServer } from './server';
-import { bootLogger } from './utils';
+import swagger from '@elysiajs/swagger';
+import { registerControllers } from './server';
+import {
+  ErrorMessages,
+  gracefulShutdown,
+  requestLogger,
+  bootLogger,
+} from './utils';
 
 try {
   const app = new Elysia();
-  startServer(app);
+  app.onResponse(requestLogger);
+  app.onStop(gracefulShutdown);
+  app.onError(({ code, error, set }) => ErrorMessages(code, error, set));
+  app.use(swagger());
+  registerControllers(app); // user routes and middlewates
   process.on('SIGINT', app.stop);
   process.on('SIGTERM', app.stop);
   app.listen(process.env.PORT!, bootLogger);

@@ -42,7 +42,8 @@ function bootLogger() {
 }
 
 const gracefulShutdown = async () => {
-  console.log(chalk.yellowBright('shutting down gracefully ....'));
+  console.log(chalk.yellowBright('shutting down gracefully (5 seconds) ....'));
+  // disconnet DB and other services...
   setTimeout(() => {
     console.log('good bye');
     process.exit();
