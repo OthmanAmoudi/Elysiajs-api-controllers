@@ -22,7 +22,6 @@ class TasksController extends BaseController {
 
   @Get('/', { query: TaskQuery, response: TaskListResponse })
   async index(ctx: any) {
-    console.log(ctx);
     return tasksService.getAllTasks(ctx.query.limit);
   }
 

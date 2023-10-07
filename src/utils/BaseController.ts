@@ -1,17 +1,18 @@
 import { Elysia } from 'Elysia';
 
-interface Route {
+export interface Route {
   method: string;
   path: string;
   handler: (...args: any[]) => any;
   responseOptions?: Record<string, any>;
+  middlewares?: any;
 }
 
 abstract class BaseController {
   app: any;
   basePath: string;
-
   abstract routes: Route[];
+  // abstract middlewares: any[];
 
   constructor(basePath: string) {
     this.app = new Elysia();
@@ -48,6 +49,7 @@ abstract class BaseController {
         route.handler,
         {
           ...route.responseOptions,
+          // ...this.middlewares,
           detail: {
             tags: [this.basePath.replace('/', '')], // for swagger
           },

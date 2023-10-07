@@ -1,5 +1,5 @@
 import NotesService from './notes.service';
-import { Delete, Get, Post, Put, BaseController } from '../../utils';
+import { Delete, Get, Post, Put, BaseController, useBefore } from '../../utils';
 import {
   NoteBody,
   NoteQuery,
@@ -8,6 +8,7 @@ import {
   NoteListResponse,
   FullNoteResponse,
 } from './notes.dto';
+import { protectedRoute } from '../../middlewares';
 
 class NotesController extends BaseController {
   routes = [];
@@ -16,7 +17,11 @@ class NotesController extends BaseController {
     super('/notes');
   }
 
-  @Get('/', { query: NoteQuery, response: NoteListResponse })
+  @Get('/', {
+    query: NoteQuery,
+    response: NoteListResponse,
+    // beforeHandle: protectedRoute,
+  })
   async index(ctx: any) {
     return notesService.getAllNotes(ctx.query.limit);
   }
