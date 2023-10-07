@@ -4,30 +4,16 @@
 
 - Elysia RESTAPI starter example
 - Decorators for GET, POST, PUT and DELETE methods
+- Familiar middleware like express (beforeHandle)
 - by default, all requests are logged in the console ('GET -- /swagger -- 200 2023-10-02T00:48:20.857Z')
-- swagger included everytime you extend the base controller, to view registered routes go to (http://localhost:3500/swagger)
+- swagger included, everytime you register new controller,view all routes (http://localhost:3500/swagger)
 
-first
-
-```
-bun install
-```
-
-then
-
-```
-npm run dev
-```
-
-make sure in your tsconfig.json you have:
-```
-"experimentalDecorators": true
-```
 example controller
 
 ```ts
 import { t } from 'Elysia';
 import TasksService from './tasks.service';
+import { AuthRoute } from '../../middlewares';
 import { Delete, Get, Post, Put, BaseController } from '../../utils';
 
 let TaskBody = t.Object({ title: t.String() });
@@ -51,6 +37,7 @@ class TasksController extends BaseController {
   @Post('/', {
     body: TaskBody,
     response: TaskResponse,
+    beforeHandle: AuthRoute,
   })
   async create(ctx: any) {
     return tasksService.createTask({ title: ctx.body.title });
@@ -77,8 +64,50 @@ class TasksController extends BaseController {
 
 const tasksService = new TasksService();
 //step3
-export default new TasksController(tasksService).start(); //in server.ts add: app.use(TasksController)
+export default new TasksController(tasksService).start();
+//in server.ts add: app.use(TasksController)
+```
 
-//const anotherSerice = new AnotherService();
-// export default new TasksController(tasksService,anotherSerice).start();
+## Create Turso db
+
+- make sure you already installed Turso CLI
+
+```sh
+turso db create mydatabasename
+```
+
+Get the db url
+
+```sh
+turso db show mydatabasename
+```
+
+Get the db token
+
+```sh
+turso db tokens create mydatabasename
+```
+
+Update the `.env` file with the token and url from the above commands
+
+```sh
+bun install
+```
+
+- if you want to switch to local sqlite [see this quide](https://orm.drizzle.team/docs/quick-sqlite/bun)
+
+## Run the application
+
+To start the development server run:
+
+```sh
+npm run dev
+```
+
+Open http://localhost:3500/ with your browser to see the result.
+
+make sure in your tsconfig.json you have:
+
+```
+"experimentalDecorators": true
 ```

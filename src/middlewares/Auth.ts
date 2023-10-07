@@ -1,4 +1,5 @@
-export default function protectedRoute(ctx: any) {
+// this checks Bearer token, if not supplied the request will be rejected!
+export default function AuthRoute(ctx: any) {
   console.log('before ---- handle');
   if (!ctx.bearer) {
     ctx.set.status = 400;
@@ -8,4 +9,5 @@ export default function protectedRoute(ctx: any) {
 
     return 'unauthorized';
   }
+  // drop your auth logic here
 }
